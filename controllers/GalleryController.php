@@ -44,6 +44,10 @@ class GalleryController extends Controller
             return $this->redirect(\yii\helpers\Url::to(['gallery/index']));
         }
 
+        if(\Yii::$app->request->isGet){
+            //return $this->redirect(\yii\helpers\Url::to(['gallery/index']));
+        }
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'model' => $model,
@@ -52,16 +56,25 @@ class GalleryController extends Controller
     }
 
     public function actionOne($id){
-        $pictureData = Picture::findOne($id);
-        $picture_source = $pictureData->picture_source;
-        $picture_title = $pictureData->picture_title;
-        $picture_alt = $pictureData->picture_alt;
-
-        return $this->render('picture_item', [
-            'picture_source' => $picture_source,
-            'picture_title' => $picture_title,
-            'picture_alt' => $picture_alt
+        return $this->render('picture_item',[
+            'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Picture::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
 }
