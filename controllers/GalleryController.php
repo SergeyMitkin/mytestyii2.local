@@ -8,7 +8,6 @@
 
 namespace app\controllers;
 
-
 use app\models\FileUpload;
 use app\models\tables\Picture;
 use yii\data\ActiveDataProvider;
@@ -17,7 +16,6 @@ use yii\web\UploadedFile;
 
 class GalleryController extends Controller
 {
-
     public function actionIndex(){
         $model = new Picture();
         $query = Picture::find();
